@@ -16,62 +16,26 @@ namespace MyUtility.Commons.IdGenerate
     {
         private DateTime _startTime = new DateTime(2000, 1, 1);
         private readonly long _nodeId;
-        private readonly long _dicCount;
-        private ConcurrentDictionary<long, IdSeed> _idDic;
+        private readonly CircleArray _circleArray;
         
         public EasyGenerator(short nodeId,int dicCount = 60)
         {
             this._nodeId = nodeId;
-            this._dicCount = dicCount;
-            this._idDic = new ConcurrentDictionary<long, IdSeed>();
+            this._circleArray = new CircleArray(dicCount);
+            
         }
 
         public IdResult GetIdResult()
         {
+            new Dictionary<string, string>();
             do
             {
-                //lock (this)
-                //{
-                //    var secons = (DateTime.Now - _startTime).TotalSeconds;
-                //    long nowTimeStamp = (long)secons;
-                //    this._sequence++;
-                //    if (this._sequence  < 1048574)
-                //    {
-                //        var idresult = new IdResult()
-                //        {
-                //            Timestamp = nowTimeStamp,
-                //            NodeId = _nodeId,
-                //            Sequence = _sequence
-                //        };
-                //        return idresult;
-                //    }
-                //    Thread.Sleep(100);
-                //}
                 var secons = (DateTime.Now - _startTime).TotalSeconds;
                 long nowTimeStamp = (long)secons;
 
-                var seed = this._idDic.GetOrAdd(nowTimeStamp, new IdSeed());
+                var sequence = this._circleArray.GenerateSequence(nowTimeStamp);
 
-                var sequence = Interlocked.Increment(ref seed.Seed);
-
-                //清理过期key 
-                if (sequence == 1 && this._idDic.Count > 1)
-                {
-                    var keys = this._idDic.Keys.ToList();
-                    var orderdKeys = keys.OrderByDescending(x => x);
-                    int i = 0;
-                    foreach (var timestamp in orderdKeys)
-                    {
-                        // 存60s的seed，防止时钟回拨
-                        if (i < this._dicCount)
-                        {
-                            continue;
-                        }
-                        this._idDic.TryRemove(timestamp, out IdSeed _);
-                    }
-                }
-
-                if (sequence < 1048574)
+                if (sequence < 1048574 * 8)
                 {
                     var idresult = new IdResult()
                     {
