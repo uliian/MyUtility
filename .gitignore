@@ -9,3 +9,4 @@
 **/obj
 *.targets
 *.log
+**/bin/

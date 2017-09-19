@@ -9,8 +9,12 @@ namespace MyUtility.Commons.IdGenerate
 {
     /// <summary>
     /// 这是一个类SnowFlake算法实现，ID可从2000.1.1开始计算秒数，即正常可以用到2099年。
-    /// Snowflake是取毫秒，这个实现是取秒，ConcurrentDic可以将秒-序列进行绑定，并且缓存一段时间，之后再清除。
-    /// 这个比较龊的实现无意间带来一个极其有用的好处：缓解时钟回拨带来的ID冲突
+    /// Snowflake是取毫秒，这个实现是取秒，
+    /// <del>ConcurrentDic可以将秒-序列进行绑定，并且缓存一段时间，之后再清除。
+    /// 这个比较龊的实现无意间带来一个极其有用的好处：缓解时钟回拨带来的ID冲突</del>
+    /// 
+    /// HOHO~喜大普奔！！实现了CircleArray之后就可以把ConcurrentDictionary干掉了，
+    /// 就真的没锁了，而且也没了莫名其妙清除逻辑！散花散花......
     /// </summary>
     public class EasyGenerator : IIdGenerator
     {
@@ -35,7 +39,7 @@ namespace MyUtility.Commons.IdGenerate
 
                 var sequence = this._circleArray.GenerateSequence(nowTimeStamp);
 
-                if (sequence < 1048574 * 8)
+                if (sequence < 1048574)
                 {
                     var idresult = new IdResult()
                     {

@@ -16,14 +16,17 @@ namespace MyUtility.Commons.IdGenerate
             this._datas = new IdSeed[capacity];
         }
 
-
-
         public long GenerateSequence(long timestamp)
         {
             var ix = timestamp % this._capacity;
             var seed = this._datas[ix];
             if (seed?.Timestamp != timestamp)
             {
+                if (seed != null && (timestamp - seed.Timestamp) > this._capacity)
+                {
+                    throw new TimeoutException("时间回退过多");
+                }
+
                 var newSeed = new IdSeed()
                 {
                     Seed = 0,
