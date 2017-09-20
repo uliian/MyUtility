@@ -20,7 +20,9 @@ public class CircleArray {
         if(seed==(null)||seed.getTimeStamp() != timeStamp){
             IdSeed newSeed = new IdSeed(timeStamp);
             this.idSeeds.compareAndSet(ix,seed,newSeed);
+            return this.idSeeds.get(ix).increment();
+        }else {
+            return seed.increment();
         }
-        return this.idSeeds.get(ix).increment();
     }
 }
