@@ -31,7 +31,6 @@ namespace MyUtility.Commons.IdGenerate
 
         public IdResult GetIdResult()
         {
-            new Dictionary<string, string>();
             do
             {
                 var secons = (DateTime.Now - _startTime).TotalSeconds;
