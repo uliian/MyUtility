@@ -15,7 +15,7 @@ public class EasyGenerator {
         beginTime = calendar.getTime().getTime();
     }
 
-    private IdResult GenerateIdResult() throws InterruptedException {
+    public IdResult generateIdResult()  {
         do{
             long timestamp = System.currentTimeMillis() - beginTime;
             timestamp = timestamp/1000;
@@ -26,7 +26,16 @@ public class EasyGenerator {
                 IdResult idresult = new IdResult(timestamp,sequence,this.nodeId);
                 return idresult;
             }
-            Thread.sleep(100);
+            try {
+                Thread.sleep(100);
+            }catch (InterruptedException e){
+                throw new RuntimeException(e);
+            }
+
         }while (true);
+    }
+
+    public long newId(){
+        return this.generateIdResult().generateId();
     }
 }
