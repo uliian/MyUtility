@@ -23,7 +23,7 @@ namespace MyUtility.Commons.Encrypt
 
         public string Sha256Encrypt(string input)
         {
-            var mySHA256 = SHA256.Create();
+            var mySHA256 = SHA256.Create1();
             var bytes = Encoding.UTF8.GetBytes(input);
             var hash = mySHA256.ComputeHash(bytes);
             return this.ToHex(hash);
