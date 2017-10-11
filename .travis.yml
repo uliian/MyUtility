@@ -3,7 +3,8 @@ mono: none
 dotnet: 2.0.0
 dist: trusty
 script:
-- echo $mygetKey
 - cd MyUtility
 - dotnet restore
 - dotnet build
+- dotnet pack
+- dotnet push *.nupkg $mygetKey -s https://www.myget.org/feed/Packages/uliian
