@@ -3,6 +3,7 @@ mono: none
 dotnet: 2.0.0
 dist: trusty
 script:
- - cd MyUtility
- - dotnet restore
- - dotnet build
+- echo $mygetKey
+- cd MyUtility
+- dotnet restore
+- dotnet build
