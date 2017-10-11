@@ -8,5 +8,5 @@ script:
 - dotnet build
 - dotnet pack -c Debug --include-symbols  -o $PWD
 - dotnet pack -c Release -o $PWD
-- echo $PWD
-- dotnet nuget push ./*.nupkg -k $mygetKey -s https://www.myget.org/feed/Packages/uliian
+- dotnet nuget push ./*.nupkg -k $mygetKey -s https://www.myget.org/F/uliian/api/v2/package
+- dotnet nuget push ./*.symbols.nupkg -k $mygetKey -s https://www.myget.org/F/uliian/symbols/api/v2/package
