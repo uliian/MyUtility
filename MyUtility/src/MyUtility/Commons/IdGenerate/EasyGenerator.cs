@@ -22,10 +22,10 @@ namespace MyUtility.Commons.IdGenerate
         private readonly long _nodeId;
         private readonly CircleArray _circleArray;
         
-        public EasyGenerator(short nodeId,int dicCount = 60)
+        public EasyGenerator(short nodeId,int timeFallback = 60)
         {
             this._nodeId = nodeId;
-            this._circleArray = new CircleArray(dicCount);
+            this._circleArray = new CircleArray(timeFallback);
             
         }
 

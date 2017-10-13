@@ -9,9 +9,9 @@ namespace MyUtility.Commons.Encrypt
     /// 这是一个很常用的密码相关类，
     /// byte->HEX，SHA256,随机盐生成
     /// </summary>
-    public class EncryptHelper
+    public class EncryptHelper : IEncryptHelper
     {
-        public string GenerateSalt(int saltLenth=64)
+        public string GenerateSalt(int saltLenth = 64)
         {
             using (var rngCsp = new RNGCryptoServiceProvider())
             {
