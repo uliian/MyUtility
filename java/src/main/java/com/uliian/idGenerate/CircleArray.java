@@ -17,11 +17,14 @@ public class CircleArray {
     public long generateSequence(long timeStamp){
         int ix = (int)(timeStamp % this.capacity);
         IdSeed seed = this.idSeeds.get(ix);
-        if(seed==(null)||seed.getTimeStamp() != timeStamp){
+        if(seed==(null)||seed.getTimeStamp() < timeStamp){
             IdSeed newSeed = new IdSeed(timeStamp);
             this.idSeeds.compareAndSet(ix,seed,newSeed);
             return this.idSeeds.get(ix).increment();
-        }else {
+        }else if(seed.getTimeStamp()>timeStamp){
+            throw new IllegalArgumentException("timestamp cache expired");
+        }
+        else {
             return seed.increment();
         }
     }
