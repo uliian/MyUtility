@@ -1,14 +1,27 @@
+
 group 'com.uliian'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'maven'
+apply from:"upload.gradle"
 
 sourceCompatibility = 1.8
 
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+
 repositories {
+    maven {
+        url 'https://www.myget.org/F/uliian_maven/maven/'
+    }
     mavenCentral()
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
